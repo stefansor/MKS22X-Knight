@@ -1,5 +1,8 @@
 public class KnightBoard{
   private int[][] board;
+  private static int[] rw = [2, 1, -1, -2, -2, -1, 1, 2];
+  private static int[] cl = [1, 2, 2, 1, -1, -2, -2, -1];
+
 
 
   public KnightBoard(int m, int n){
@@ -14,7 +17,25 @@ public class KnightBoard{
     }
   }
 
+  public boolean isValidMove(int r, int c){
+    if(r > board.length || r < 0
+    || c > board[0].length || c < 0
+    || board[r][c] != 0){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
 
+  public boolean canMove(int r, int c){
+    for(int i = 0; i < rw.length; i++){
+      if(isValidMove(r + rw[i], c + cl[i])){
+        return true;
+      }
+    }
+    return false;
+  }
 
 
   public String toString(){
@@ -33,6 +54,43 @@ public class KnightBoard{
     return str;
   }
 
+  private boolean addKnight(int row, int col, int label){
+    if(board[row][col] == 0){
+      board[row][col] = label;
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+
+
+  private boolean removeKnight (int row, int col, int label){
+    if(board[row][col] != 0){
+      board[row][col] = 0;
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   public boolean solve(int startingRow, int startingCol){
@@ -41,7 +99,26 @@ public class KnightBoard{
 
 
   private boolean solveh(int row, int col, int level){
-    
+    if(!canMove(row, col) && level == board.length * board[0].length){
+      return true;
+    }
+    if(!canMove(row, col) && level != board.length * board[0].length){
+      return false;
+    }
+    if(level == 1){
+      for(int i = 0; i < rw.length; i++){
+        board[row][col] = level;
+        solveh(row + rw[i], col + cl[i], level + 1);
+      }
+    }
+    else{
+      for(int i = 0; i < rw.length; i++){
+        if(isValidMove(row + rw[i], col + cl[i])){
+          board[row][col] = level;
+          solveh(row + rw[i], col + cl[i], level + 1);
+        }
+      }
+    }
   }
 
 
