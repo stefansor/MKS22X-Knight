@@ -1,7 +1,7 @@
 public class KnightBoard{
   private int[][] board;
-  private static int[] rw = [2, 1, -1, -2, -2, -1, 1, 2];
-  private static int[] cl = [1, 2, 2, 1, -1, -2, -2, -1];
+  private static int[] rw ={2, 1, -1, -2, -2, -1, 1, 2};
+  private static int[] cl = {1, 2, 2, 1, -1, -2, -2, -1};
 
 
 
@@ -137,6 +137,11 @@ public class KnightBoard{
   public static void main(String[] args){
     KnightBoard one = new KnightBoard(6,7);
     System.out.println(one);
+    one.addKnight(4,4);
+    System.out.println(one);
+    System.out.println(one.canMove(4,4, 4));
+    System.out.println(one.isValidMove(1, 2));
+
 
   }
 
