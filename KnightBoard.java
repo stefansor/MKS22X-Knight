@@ -1,5 +1,5 @@
 public class KnightBoard{
-  private int[][] board;
+  public int[][] board;
   private static int[] rw ={2, 1, -1, -2, -2, -1, 1, 2};
   private static int[] cl = {1, 2, 2, 1, -1, -2, -2, -1};
 
@@ -63,7 +63,7 @@ public class KnightBoard{
   }
 
   private boolean addKnight(int row, int col, int label){
-    if(board[row][col] == 0){
+    if(board[row][col] == 0 && this.isValidMove(row, col)){
       board[row][col] = label;
       return true;
     }
@@ -107,24 +107,19 @@ public class KnightBoard{
 
 
   private boolean solveh(int row, int col, int level){
-    if(row >= board.length || row < 0
-    || col >= board[0].length || col < 0){
-      return false;
-    }
-    if(!canMove(row, col) && level == board.length * board[0].length){
-      board[row][col] = level;
+    if(level == board.length * board[0].length){
+      this.addKnight(row, col, level);
       return true;
     }
-    if(canMove(row, col) && level != board.length * board[0].length){
-      return solveh(row + rw[0], col + cl[0], level + 1) ||
-      solveh(row + rw[1], col + cl[1], level + 1) ||
-      solveh(row + rw[2], col + cl[2], level + 1) ||
-      solveh(row + rw[3], col + cl[3], level + 1) ||
-      solveh(row + rw[4], col + cl[4], level + 1) ||
-      solveh(row + rw[5], col + cl[5], level + 1) ||
-      solveh(row + rw[6], col + cl[6], level + 1) ||
-      solveh(row + rw[7], col + cl[7], level + 1);
+    for(int i = 0; i < rw.length; i++){
+      if(this.addKnight(row + rw[i], col + cl[i], level)){
+        if(solveh(row + rw[i], col + cl[i], level + 1)){
+          return true;
+        }
+        this.removeKnight(row, col, level);
+      }
     }
+    clear();
     return false;
   }
 
@@ -147,6 +142,7 @@ public class KnightBoard{
     one.addKnight(4,4, 4);
     System.out.println(one);
     System.out.println(one.canMove(4,4));
+    one.addKnight(1,2,3);
     System.out.println(one.isValidMove(1, 2));
     one.clear();
     one.addKnight(5, 0, 1);
@@ -157,6 +153,8 @@ public class KnightBoard{
     KnightBoard two = new KnightBoard(5, 5);
     two.solve(4, 4);
     System.out.println(two);
+    System.out.println(two.board.length);
+    System.out.println(two.board[0].length);
 
 
   }
