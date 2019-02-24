@@ -18,8 +18,8 @@ public class KnightBoard{
   }
 
   public boolean isValidMove(int r, int c){
-    if(r > board.length || r < 0
-    || c > board[0].length || c < 0
+    if(r >= board.length || r < 0
+    || c >= board[0].length || c < 0
     || board[r][c] != 0){
       return false;
     }
@@ -52,6 +52,14 @@ public class KnightBoard{
       str = str + "\n";
     }
     return str;
+  }
+
+  private void clear(){
+    for(int i = 0; i < board.length; i++){
+      for(int j = 0; j < board[0].length; j++){
+        board[i][j] = 0;
+      }
+    }
   }
 
   private boolean addKnight(int row, int col, int label){
@@ -99,26 +107,25 @@ public class KnightBoard{
 
 
   private boolean solveh(int row, int col, int level){
-    if(!canMove(row, col) && level == board.length * board[0].length){
-      return true;
-    }
-    if(!canMove(row, col) && level != board.length * board[0].length){
+    if(row >= board.length || row < 0
+    || col >= board[0].length || col < 0){
       return false;
     }
-    if(level == 1){
-      for(int i = 0; i < rw.length; i++){
-        board[row][col] = level;
-        solveh(row + rw[i], col + cl[i], level + 1);
-      }
+    if(!canMove(row, col) && level == board.length * board[0].length){
+      board[row][col] = level;
+      return true;
     }
-    else{
-      for(int i = 0; i < rw.length; i++){
-        if(isValidMove(row + rw[i], col + cl[i])){
-          board[row][col] = level;
-          solveh(row + rw[i], col + cl[i], level + 1);
-        }
-      }
+    if(canMove(row, col) && level != board.length * board[0].length){
+      return solveh(row + rw[0], col + cl[0], level + 1) ||
+      solveh(row + rw[1], col + cl[1], level + 1) ||
+      solveh(row + rw[2], col + cl[2], level + 1) ||
+      solveh(row + rw[3], col + cl[3], level + 1) ||
+      solveh(row + rw[4], col + cl[4], level + 1) ||
+      solveh(row + rw[5], col + cl[5], level + 1) ||
+      solveh(row + rw[6], col + cl[6], level + 1) ||
+      solveh(row + rw[7], col + cl[7], level + 1);
     }
+    return false;
   }
 
 
@@ -137,10 +144,19 @@ public class KnightBoard{
   public static void main(String[] args){
     KnightBoard one = new KnightBoard(6,7);
     System.out.println(one);
-    one.addKnight(4,4);
+    one.addKnight(4,4, 4);
     System.out.println(one);
-    System.out.println(one.canMove(4,4, 4));
+    System.out.println(one.canMove(4,4));
     System.out.println(one.isValidMove(1, 2));
+    one.clear();
+    one.addKnight(5, 0, 1);
+    one.addKnight(3, 1, 2);
+    one.addKnight(4, 2, 3);
+    System.out.println(one);
+    System.out.println(one.canMove(5, 0));
+    KnightBoard two = new KnightBoard(5, 5);
+    two.solve(4, 4);
+    System.out.println(two);
 
 
   }
