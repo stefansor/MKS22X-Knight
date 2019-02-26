@@ -63,7 +63,7 @@ public class KnightBoard{
   }
 
   private boolean addKnight(int row, int col, int label){
-    if(this.isValidMove(row, col)  && board[row][col] == 0){
+    if(this.isValidMove(row, col)){
       board[row][col] = label;
       return true;
     }
@@ -108,12 +108,17 @@ public class KnightBoard{
 
   private boolean solveh(int row, int col, int level){
     if(level == board.length * board[0].length){
+      addKnight(row, col, level);
       return true;
     }
-    if(canMove(row, col) && level < board.length * board[0].length
-    && addKnight(row, col, level)){
-      for(int i = 0; i < rw.length; i++){
-        return solveh(row + rw[i], col + cl[i], level + 1);
+    if(isValidMove(row, col) && canMove(row, col)
+    && level < board.length * board[0].length){
+      if(addKnight(row, col, level)){
+        for(int i = 0; i < rw.length; i++){
+          if(solveh(row + rw[i], col + cl[i], level + 1)){
+            return true;
+          }
+        }
       }
     }
     clear();
@@ -159,12 +164,13 @@ public class KnightBoard{
     System.out.println(two.isValidMove(0, 10));
     System.out.println(two.canMove(7,7));
     System.out.println(two.canMove(8,8));
-
-  /*  System.out.println(two.solve(4, 4));
+    System.out.println();
+    System.out.println();
+    System.out.println(two.solve(0,0));
     System.out.println(two);
     System.out.println(two.board.length);
     System.out.println(two.board[0].length);
-*/
+
 
   }
 
