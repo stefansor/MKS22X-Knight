@@ -120,13 +120,40 @@ public class KnightBoard{
           }
         }
       }
+      removeKnight(row, col, level);
     }
-    clear();
     return false;
   }
 
 
 
+
+
+
+
+
+  public int countSolutions(int startingRow, int startingCol){
+      return help(startingRow, startingCol, 0);
+  }
+
+
+  private int help(int r, int c, int level){
+    if(level == board.length * board[0].length){
+      return 1;
+    }
+    int sum = 0;
+    if(isValidMove(row, col) && canMove(row, col)
+    && level < board.length * board[0].length){
+      if(addKnight(row, col, level)){
+        for(int i = 0; i < rw.length; i++){
+          sum += solveh(row + rw[i], col + cl[i], level + 1))
+          removeKnight(row, col, level);
+          }
+        }
+      }
+    }
+    return sum;
+  }
 
 
 
@@ -170,6 +197,11 @@ public class KnightBoard{
     System.out.println(two);
     System.out.println(two.board.length);
     System.out.println(two.board[0].length);
+    System.out.println();
+    System.out.println();
+    KnightBoard three = new KnightBoard(2, 5);
+    System.out.println(three.solve(0,0));
+    System.out.println(three);
 
 
   }
