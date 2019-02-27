@@ -163,16 +163,13 @@ public class KnightBoard{
     if(level == board.length * board[0].length){
       return 1;
     }
-    if(!canMove(row, col)){
-      return 0;
-    }
     int sum = 0;
     if(isValidMove(row, col) && canMove(row, col)
     && level < board.length * board[0].length){
       for(int i = 0; i < rw.length; i++){
         if(addKnight(row, col, level)){
           sum += help(row + rw[i], col + cl[i], level + 1);
-          removeKnight(row, col, level);
+          removeKnight(row, col, level); 
         }
       }
     }
