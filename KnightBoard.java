@@ -133,24 +133,25 @@ public class KnightBoard{
 
 
   public int countSolutions(int startingRow, int startingCol){
-      return help(startingRow, startingCol, 0);
+      return help(startingRow, startingCol, 0, 0);
   }
 
 
-  private int help(int r, int c, int level){
+  private int help(int row, int col, int level, int sum){
     if(level == board.length * board[0].length){
       return 1;
     }
-    int sum = 0;
+    if(!canMove(row, col)){
+      return 0;
+    }
     if(isValidMove(row, col) && canMove(row, col)
     && level < board.length * board[0].length){
       if(addKnight(row, col, level)){
         for(int i = 0; i < rw.length; i++){
-          sum += solveh(row + rw[i], col + cl[i], level + 1))
-          removeKnight(row, col, level);
-          }
+          sum += help(row + rw[i], col + cl[i], level + 1, sum);
         }
       }
+      removeKnight(row, col, level);
     }
     return sum;
   }
@@ -202,6 +203,8 @@ public class KnightBoard{
     KnightBoard three = new KnightBoard(2, 5);
     System.out.println(three.solve(0,0));
     System.out.println(three);
+    KnightBoard four = new KnightBoard(4, 4);
+    System.out.println(four.countSolutions(0,0));
 
 
   }
