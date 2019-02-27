@@ -102,6 +102,17 @@ public class KnightBoard{
 
 
   public boolean solve(int startingRow, int startingCol){
+    for(int i = 0; i < board.length; i++){
+      for(int j = 0; j < board[0].length; j++){
+        if(board[i][j] != 0){
+          throw new IllegalStateException("Board must be cleared before finding a solution");
+        }
+      }
+    }
+    if(startingRow >= board.length || startingRow < 0 ||
+    startingCol >= board[0].length || startingCol < 0){
+      throw new IllegalArgumentException("One of the parameters is negative or out of bounds");
+    }
     return solveh(startingRow, startingCol, 1);
   }
 
@@ -133,25 +144,37 @@ public class KnightBoard{
 
 
   public int countSolutions(int startingRow, int startingCol){
-      return help(startingRow, startingCol, 0, 0);
+    for(int i = 0; i < board.length; i++){
+      for(int j = 0; j < board[0].length; j++){
+        if(board[i][j] != 0){
+          throw new IllegalStateException("Board must be cleared before finding a solution");
+        }
+      }
+    }
+    if(startingRow >= board.length || startingRow < 0 ||
+    startingCol >= board[0].length || startingCol < 0){
+      throw new IllegalArgumentException("One of the parameters is negative or out of bounds");
+    }
+    return help(startingRow, startingCol, 0);
   }
 
 
-  private int help(int row, int col, int level, int sum){
+  private int help(int row, int col, int level){
     if(level == board.length * board[0].length){
       return 1;
     }
     if(!canMove(row, col)){
       return 0;
     }
+    int sum = 0;
     if(isValidMove(row, col) && canMove(row, col)
     && level < board.length * board[0].length){
-      if(addKnight(row, col, level)){
-        for(int i = 0; i < rw.length; i++){
-          sum += help(row + rw[i], col + cl[i], level + 1, sum);
+      for(int i = 0; i < rw.length; i++){
+        if(addKnight(row, col, level)){
+          sum += help(row + rw[i], col + cl[i], level + 1);
+          removeKnight(row, col, level);
         }
       }
-      removeKnight(row, col, level);
     }
     return sum;
   }
