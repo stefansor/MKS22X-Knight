@@ -74,7 +74,7 @@ public class KnightBoard{
 
 
 
-  private boolean removeKnight (int row, int col, int label){
+  private boolean removeKnight (int row, int col){
     if(board[row][col] != 0){
       board[row][col] = 0;
       return true;
@@ -131,7 +131,7 @@ public class KnightBoard{
           }
         }
       }
-      removeKnight(row, col, level);
+      removeKnight(row, col);
     }
     return false;
   }
@@ -160,18 +160,15 @@ public class KnightBoard{
 
 
   private int help(int row, int col, int level){
-    if(level == board.length * board[0].length){
-      return 1;
-    }
     int sum = 0;
-    if(isValidMove(row, col) && canMove(row, col)
-    && level < board.length * board[0].length){
-      for(int i = 0; i < rw.length; i++){
-        if(addKnight(row, col, level)){
-          sum += help(row + rw[i], col + cl[i], level + 1);
-          removeKnight(row, col, level); 
-        }
+    if (level == board.length * board[0].length) {
+        return 1;
+    }
+    if (addKnight(row, col, level)) {
+      for (int i = 0; i < 8; i++) {
+        sum += help(row + rw[i], col + cl[i], level + 1);
       }
+      removeKnight(row, col);
     }
     return sum;
   }
@@ -189,16 +186,12 @@ public class KnightBoard{
   public static void main(String[] args){
     KnightBoard one = new KnightBoard(6,7);
     System.out.println(one);
-    one.addKnight(4,4, 4);
+    int a = 3;
+    for(int i = 0; i < 8; i++){
+      one.addKnight(a + rw[i], a + cl[i], 3);
+    }
     System.out.println(one);
-    System.out.println(one.canMove(4,4));
-    one.addKnight(1,2,3);
-    System.out.println(one.isValidMove(1, 2));
-    one.clear();
-    one.addKnight(5, 0, 1);
-    one.addKnight(3, 1, 2);
-    one.addKnight(4, 2, 3);
-    System.out.println(one);
+    System.out.println(one.solve(0,0));
     System.out.println(one.canMove(5, 0));
     System.out.println(rw[0]);
     System.out.println(cl[0]);
